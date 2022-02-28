@@ -16,7 +16,7 @@ Get the package with:
 
 Install the binary under go/bin folder:
 
-`go install github.com/adrianos93/nomenclator/cmd/nomenclator`
+`go install github.com/adrianos93/nomenclator/cmd/nomenclator@latest`
 
 Ensure that your go/bin folder is in your PATH, otherwise this will not work.
 
