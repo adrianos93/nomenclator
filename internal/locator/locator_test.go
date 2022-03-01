@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
-	"reflect"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -107,42 +106,6 @@ func TestLocator_Locate(t *testing.T) {
 			require.Equal(t, got.City, test.want.City)
 			require.Equal(t, got.Country, test.want.Country)
 
-		})
-	}
-}
-
-func TestLocator_Locater(t *testing.T) {
-	type fields struct {
-		apikey string
-		limit  int
-	}
-	type args struct {
-		latitude  float64
-		longitude float64
-	}
-	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    Location
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			l := &Locator{
-				apikey: tt.fields.apikey,
-				limit:  tt.fields.limit,
-			}
-			got, err := l.Locate(tt.args.latitude, tt.args.longitude)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("Locator.Locate() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Locator.Locate() = %v, want %v", got, tt.want)
-			}
 		})
 	}
 }

@@ -48,8 +48,6 @@ func TestProcessor_Process(t *testing.T) {
 		weathermanCalls []mock.Call
 
 		expect string
-
-		wantErr bool
 	}{
 		"foggy weekend": {
 			input: [][]string{
@@ -151,15 +149,13 @@ func TestProcessor_Process(t *testing.T) {
 			weathermanCalls: []mock.Call{
 				{Method: "CheckWeather", Arguments: []interface{}{40.728656, -73.998790, dateParser("2020-03-29T14:20:10")}, ReturnArguments: []interface{}{weatherman.Forecast{Conditions: "Rain"}, nil}},
 			},
-			wantErr: true,
-			expect:  "A rainy day in New York",
+			expect: "A rainy day in New York",
 		},
 		"coordinates fail": {
 			input: [][]string{
 				{"2020-03-30T14:12:19Z", "what", "-73.998790"},
 				{"2020-03-29T14:20:10Z", "40.728656", "what"},
 			},
-			wantErr: true,
 		},
 		"locator/weatherman fails": {
 			input: [][]string{
@@ -173,7 +169,6 @@ func TestProcessor_Process(t *testing.T) {
 			weathermanCalls: []mock.Call{
 				{Method: "CheckWeather", Arguments: []interface{}{40.728656, -73.998790, dateParser("2020-03-29T14:20:10")}, ReturnArguments: []interface{}{weatherman.Forecast{}, fmt.Errorf("argh")}},
 			},
-			wantErr: true,
 		},
 	} {
 		t.Run(name, func(t *testing.T) {
