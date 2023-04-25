@@ -2,6 +2,7 @@ package weatherman
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"strings"
@@ -64,6 +65,9 @@ func (w *Weatherman) CheckWeather(latitude, longitude float64, date time.Time) (
 	resp, err := http.Get(req)
 	if err != nil {
 		return Forecast{}, fmt.Errorf("request to %s failed: %w", url, err)
+	}
+	if resp.StatusCode != http.StatusOK {
+		return Forecast{}, errors.New("non 2xx response from weather API")
 	}
 	defer resp.Body.Close()
 	weatherData := apiData{}

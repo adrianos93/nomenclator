@@ -1,6 +1,7 @@
 package processor
 
 import (
+	"errors"
 	"fmt"
 	"regexp"
 	"strconv"
@@ -44,8 +45,8 @@ func New(l Locator, w Weatherman) *Processor {
 // Process is used to process the data obtained from a source file and returning
 // a title based on common features of the pictures composing an album.
 func (p *Processor) Process(data [][]string) (string, []error) {
-	errs := []error{}
-	albumMetadata := []locator.Location{}
+	errs := make([]error, 0, len(data))
+	albumMetadata := make([]locator.Location, 0, len(data))
 	for _, row := range data {
 		metadata, err := mapDataRowToStruct(row)
 		if err != nil {
@@ -76,6 +77,9 @@ func (p *Processor) Process(data [][]string) (string, []error) {
 
 // mapDataRowToStruct is a helper function used to map raw photo metadata to the Metadata custom type
 func mapDataRowToStruct(metadata []string) (Metadata, error) {
+	if len(metadata) < 1 {
+		return Metadata{}, errors.New("empty row")
+	}
 	date, err := time.Parse("2006-01-02T15:04:05Z", metadata[0])
 	if err != nil {
 		return Metadata{}, fmt.Errorf("invalid date: %w", err)
@@ -113,6 +117,9 @@ func albumCity(album []locator.Location) string {
 
 // albumPeriod is a helper function used to return the period of time the album was composed in.
 func albumPeriod(album []locator.Location) string {
+	if len(album) < 1 {
+		return ""
+	}
 	var period string
 	weekendRegExp := regexp.MustCompile(`Saturday|Sunday|Friday`)
 	minDate, maxDate := album[0].Date, album[0].Date

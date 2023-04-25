@@ -8,6 +8,7 @@ nomenclator is dependant on 2 APIs in order to function:
 - [VisualCrossing Weather Data Services](https://www.visualcrossing.com/weather/weather-data-services)
 
 To use this tool, API keys for each API is required, meaning it is necessary to create accounts with the 2 providers above. They do have a free tier, so no credit card data is required.
+
 ## Installation
 
 Get the package with:
@@ -42,12 +43,14 @@ The accepted scheme for a CSV files is:
 2020-03-30T14:20:10Z,40.728656,-73.998790
 2020-03-30T14:32:02Z,40.727160,-73.996044
 ```
+
 where the first column contains a date in the [RFC3339 format](https://www.ietf.org/rfc/rfc3339.txt).
 The second and third columns have geographical coordinates data, latitude and longitude respectively.
 
 Other schemas or formats are not supported.
 
 Sample files can be found in the `data` folder provided.
+
 ## Usage
 
 `cd path/to/app`

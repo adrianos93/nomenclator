@@ -2,6 +2,7 @@ package locator
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"time"
@@ -76,6 +77,9 @@ func (l *Locator) Locate(latitude, longitude float64) (Location, error) {
 	resp, err := http.Get(req)
 	if err != nil {
 		return Location{}, fmt.Errorf("failed to retrieve geospatial data: %w", err)
+	}
+	if resp.StatusCode != http.StatusOK {
+		return Location{}, errors.New("non 2xx response from location API")
 	}
 	defer resp.Body.Close()
 	locationData := locationData{}
